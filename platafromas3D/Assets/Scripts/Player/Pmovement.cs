@@ -47,7 +47,6 @@ public class Pmovement : MonoBehaviour
 
         transform.position += transform.forward * currentSpeed * Time.deltaTime;
         transform.position -= transform.forward * currentSpeed1 * Time.deltaTime;
-        transform.position += transform.forward * currentSpeed2 * Time.deltaTime;
     }
 
     public float GetCurrentSpeed()
