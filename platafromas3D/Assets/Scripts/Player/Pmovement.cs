@@ -4,54 +4,88 @@ using UnityEngine;
 
 public class Pmovement : MonoBehaviour
 {
-    [SerializeField]
-    private float acceleration; //5 en el inspector
+    public Animator playerAnim;
+    public Rigidbody playerRigid;
+    public float w_speed, wb_speed, olw_speed, rn_speed, ro_speed, jumpForce;
+    public bool walking, grounded, IsOnAir;
+    public Transform playerTrans;
 
-    [SerializeField] 
-    private float maxSpeed; //5 en el inspector
 
+    void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.position += transform.forward * w_speed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.position -= transform.forward * wb_speed * Time.deltaTime;
+        }
 
-    private float currentSpeed = 0f;
-    private float currentSpeed1 = 0f;
-    private float currentSpeed2 = 0f;
-
-    // Update is called once per frame
+        if (Input.GetKey(KeyCode.A))
+        {
+            playerTrans.Rotate(0, -ro_speed * Time.deltaTime, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
+        }
+    }
     void Update()
     {
-        if(Input.GetKey(KeyCode.W))
+        
+        if (walking == true)
         {
-            currentSpeed += acceleration * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                
+            }        
         }
-       
-        else
+        if (grounded)
         {
-            currentSpeed -= acceleration * Time.deltaTime;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // reset y velocity
+                playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
+
+                playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                grounded = false;
+                IsOnAir = true;
+            }
         }
 
-        if(Input.GetKey(KeyCode.S))
+        if(IsOnAir == true)
         {
-            currentSpeed1 += acceleration * Time.deltaTime;
-        }
-        else
-        {
-            currentSpeed -= acceleration * Time.deltaTime;
-        }
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // reset y velocity
+                playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
 
-        if(Input.GetKey(KeyCode.D))
-        {
-            currentSpeed2 += acceleration * Time.deltaTime;
+                playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                grounded = false;
+                IsOnAir = false;
+            }
         }
-
-        currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
-        currentSpeed1 = Mathf.Clamp(currentSpeed1, 0f, maxSpeed);
-
-        transform.position += transform.forward * currentSpeed * Time.deltaTime;
-        transform.position -= transform.forward * currentSpeed1 * Time.deltaTime;
     }
 
-    public float GetCurrentSpeed()
+    private void OnCollisionEnter(Collision collision)
     {
-        return this.currentSpeed;
-        return this.currentSpeed1;
+        if (collision.collider.name == "floor")
+        {
+            grounded = true;
+            IsOnAir = false;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.tag == "floor")
+        {
+            grounded = true;
+        }
     }
 }
