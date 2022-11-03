@@ -157,7 +157,7 @@ MonoBehaviour:
   w_speed: 5
   wb_speed: 5
   olw_speed: 5
-  rn_speed: 120
+  rn_speed: 5
   ro_speed: 120
   jumpForce: 2
   walking: 0

@@ -22,29 +22,6 @@ public class Pmovement : MonoBehaviour
             transform.position -= transform.forward * wb_speed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            playerTrans.Rotate(0, -ro_speed * Time.deltaTime, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
-        }
-    }
-    void Update()
-    {
-        
-        if (walking == true)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                
-            }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                
-            }        
-        }
         if (grounded)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -58,7 +35,7 @@ public class Pmovement : MonoBehaviour
             }
         }
 
-        if(IsOnAir == true)
+        if (IsOnAir == true)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -70,6 +47,89 @@ public class Pmovement : MonoBehaviour
                 IsOnAir = false;
             }
         }
+
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            playerAnim.SetTrigger("walk");
+            playerAnim.ResetTrigger("idle");
+            walking = true;
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            playerAnim.ResetTrigger("walk");
+            playerAnim.SetTrigger("idle");
+            walking = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            playerAnim.SetTrigger("walkback");
+            playerAnim.ResetTrigger("idle");
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            playerAnim.ResetTrigger("walkback");
+            playerAnim.SetTrigger("idle");
+        }
+
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            playerTrans.Rotate(0, -ro_speed * Time.deltaTime, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            playerAnim.SetTrigger("jump");
+            playerAnim.ResetTrigger("idle");
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            playerAnim.ResetTrigger("jump");
+            playerAnim.SetTrigger("idle");
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            playerAnim.SetTrigger("crouched");
+            playerAnim.ResetTrigger("idle");
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            playerAnim.ResetTrigger("crouched");
+            playerAnim.SetTrigger("idle");
+        }
+
+
+        if (walking == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                //steps1.SetActive(false);
+                //steps2.SetActive(true);
+                w_speed = w_speed + rn_speed;
+                playerAnim.SetTrigger("run");
+                playerAnim.ResetTrigger("walk");
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                //steps1.SetActive(true);
+                //steps2.SetActive(false);
+                w_speed = olw_speed;
+                playerAnim.ResetTrigger("run");
+                playerAnim.SetTrigger("walk");
+            }        
+        }
+        
+
+        
     }
 
     private void OnCollisionEnter(Collision collision)

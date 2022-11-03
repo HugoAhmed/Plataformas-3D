@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: c52c82d954631ae46b5284e5136d1767
+guid: 7939c7f1cd53df546b54f907a373fd5f
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Walking (1)
-  - first:
-      74: -1610863427237328480
-    second: Walking
+    second: Crouched Walking
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -39,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walking
+      name: Crouched Walking
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -797,6 +794,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
