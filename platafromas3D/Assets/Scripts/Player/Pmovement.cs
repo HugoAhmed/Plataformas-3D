@@ -10,6 +10,10 @@ public class Pmovement : MonoBehaviour
     public bool walking, grounded, IsOnAir;
     public Transform playerTrans;
 
+    void start()
+    {
+        playerRigid = GetComponent<Rigidbody>();
+    }
 
     void FixedUpdate()
     {
@@ -30,12 +34,21 @@ public class Pmovement : MonoBehaviour
                 playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
 
                 playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+                
                 grounded = false;
-                IsOnAir = true;
+                
+
             }
+            
+        }
+        
+        if(!grounded)
+        {
+            IsOnAir = true;
         }
 
-        if (IsOnAir == true)
+        if (IsOnAir)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -43,7 +56,6 @@ public class Pmovement : MonoBehaviour
                 playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
 
                 playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                grounded = false;
                 IsOnAir = false;
             }
         }
@@ -84,12 +96,16 @@ public class Pmovement : MonoBehaviour
         {
             playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (grounded || IsOnAir)
         {
-            playerAnim.SetTrigger("jump");
-            playerAnim.ResetTrigger("idle");
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerAnim.SetTrigger("jump");
+                playerAnim.ResetTrigger("idle");
+            }
+            
         }
+
         if (Input.GetKeyUp(KeyCode.Space))
         {
             playerAnim.ResetTrigger("jump");
@@ -125,7 +141,8 @@ public class Pmovement : MonoBehaviour
                 w_speed = olw_speed;
                 playerAnim.ResetTrigger("run");
                 playerAnim.SetTrigger("walk");
-            }        
+            } 
+
         }
         
 
@@ -141,11 +158,5 @@ public class Pmovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.collider.tag == "floor")
-        {
-            grounded = true;
-        }
-    }
+    
 }
