@@ -140,11 +140,16 @@ public class Pmovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (collision.collider.tag == "wall")
+        {
+            jumpsRemaining += 1;
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
         grounded = false;
+        
     }
 
 

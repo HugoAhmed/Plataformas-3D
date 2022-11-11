@@ -8,6 +8,7 @@ TagManager:
   - enemy
   - coin
   - plataform
+  - wall
   layers:
   - Default
   - TransparentFX
