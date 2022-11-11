@@ -9,10 +9,12 @@ public class Pmovement : MonoBehaviour
     public float w_speed, wb_speed, olw_speed, rn_speed, ro_speed, jumpForce;
     public bool walking, grounded, IsOnAir;
     public Transform playerTrans;
+    public int maxJumpCount = 3;
+    public int jumpsRemaining = 0;
 
     void start()
     {
-        playerRigid = GetComponent<Rigidbody>();
+        playerRigid = gameObject.GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
@@ -26,39 +28,6 @@ public class Pmovement : MonoBehaviour
             transform.position -= transform.forward * wb_speed * Time.deltaTime;
         }
 
-        if (grounded)
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                // reset y velocity
-                playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
-
-                playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-                
-                grounded = false;
-                
-
-            }
-            
-        }
-        
-        if(!grounded)
-        {
-            IsOnAir = true;
-        }
-
-        if (IsOnAir)
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                // reset y velocity
-                playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
-
-                playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                IsOnAir = false;
-            }
-        }
 
     }
     void Update()
@@ -96,15 +65,15 @@ public class Pmovement : MonoBehaviour
         {
             playerTrans.Rotate(0, ro_speed * Time.deltaTime, 0);
         }
-        if (grounded || IsOnAir)
+        if(jumpsRemaining > 0)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 playerAnim.SetTrigger("jump");
                 playerAnim.ResetTrigger("idle");
             }
-            
         }
+           
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -144,19 +113,39 @@ public class Pmovement : MonoBehaviour
             } 
 
         }
-        
 
-        
+            if (Input.GetKeyDown(KeyCode.Space) && (jumpsRemaining > 0))
+            {
+                // reset y velocity
+                playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
+                playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                jumpsRemaining -= 1;
+
+            }
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.name == "floor")
+        if (collision.collider.tag == "floor")
         {
             grounded = true;
-            IsOnAir = false;
+            jumpsRemaining = maxJumpCount;
+        }
+        if (collision.collider.tag == "plataform")
+        {
+            playerRigid.AddForce(0, 20, 20);
+        }
+        if (collision.collider.tag == "enemy")
+        {
+            Destroy(gameObject);
         }
     }
 
-    
+    private void OnCollisionExit(Collision collision)
+    {
+        grounded = false;
+    }
+
+
 }

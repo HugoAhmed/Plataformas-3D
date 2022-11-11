@@ -57,8 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Camera\Camera.cs" />
+    <Compile Include="Assets\Scripts\Player\P_collision.cs" />
     <Compile Include="Assets\Scripts\Player\P_anim.cs" />
     <Compile Include="Assets\Scripts\Player\Pmovement.cs" />
+    <Compile Include="Assets\Scripts\Enemy\e_movement.cs" />
+    <Compile Include="Assets\Scripts\Plataform\Plataform.cs" />
+    <Compile Include="Assets\Scripts\coin\c_collision.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
