@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class P_collision : MonoBehaviour
 {
     public float coin_count = 8;
-
+    public Rigidbody player;
+    private float y = 100, z = 100;
     private void Update()
     {
         if (coin_count == 0)
@@ -25,6 +26,10 @@ public class P_collision : MonoBehaviour
         {
             coin_count -= 1;
             
+        }
+        if (collision.collider.tag == "cappy")
+        {
+            player.AddForce(0, y, z);
         }
     }
 }

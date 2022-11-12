@@ -9,6 +9,9 @@ TagManager:
   - coin
   - plataform
   - wall
+  - Ground
+  - Cap
+  - cappy
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
