@@ -111,21 +111,6 @@ public class Pmovement : MonoBehaviour
                 playerAnim.ResetTrigger("run");
                 playerAnim.SetTrigger("walk");
             }
-            if (jumpsRemaining > 0)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    playerAnim.SetTrigger("jump");
-                    playerAnim.ResetTrigger("walk");
-                }
-            }
-
-
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                playerAnim.ResetTrigger("jump");
-                playerAnim.SetTrigger("walk");
-            }
 
         }
 

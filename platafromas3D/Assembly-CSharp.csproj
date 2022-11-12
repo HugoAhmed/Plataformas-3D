@@ -56,16 +56,15 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Camera\Camera.cs" />
     <Compile Include="Assets\Scripts\coin\c_rotation.cs" />
     <Compile Include="Assets\Scripts\Player\P_collision.cs" />
-    <Compile Include="Assets\Scripts\Player\P_anim.cs" />
+    <Compile Include="Assets\Scripts\Player\P_cappy.cs" />
+    <Compile Include="Assets\Scripts\Camera\Camera.cs" />
+    <Compile Include="Assets\Scripts\Player\P_attack.cs" />
     <Compile Include="Assets\Scripts\Player\Pmovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\e_movement.cs" />
     <Compile Include="Assets\Scripts\Plataform\Plataform.cs" />
     <Compile Include="Assets\Scripts\coin\c_collision.cs" />
-    <Compile Include="Assets\Scripts\Player\P_cappy.cs" />
-    <Compile Include="Assets\Scripts\Player\P_attack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -789,12 +788,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

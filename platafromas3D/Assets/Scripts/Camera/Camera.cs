@@ -4,39 +4,46 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    [SerializeField]
-    private float targetDistance;
-    [SerializeField]
-    private float rotationX;
-    [SerializeField]
-    private float rotationY;
-    [SerializeField]
-    private GameObject target;
+    private Vector2 angle = new Vector2(90 * Mathf.Deg2Rad, 0);
 
-    [SerializeField]
-    private float cameraLerp; //12f
+    public Transform follow;
+    public float distance;
+    public Vector2 sensitivity;
 
-
-    private void LateUpdate()
+    // Start is called before the first frame update
+    void Start()
     {
-        rotationX += Input.GetAxis("Mouse Y");
-        rotationY += Input.GetAxis("Mouse X");
-        rotationX = Mathf.Clamp(rotationX, -50f, 50f);
-        transform.eulerAngles = new Vector3(rotationX, rotationY, 0);
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
+    void Update()
+    {
+        float hor = Input.GetAxis("Mouse X");
 
-        Vector3 finalPosition = Vector3.Lerp(transform.position, target.transform.position -
-        transform.forward * targetDistance, cameraLerp * Time.deltaTime);
-
-        RaycastHit hit;
-
-        if (Physics.Linecast(target.transform.position, finalPosition, out hit))
+        if (hor != 0)
         {
-            finalPosition = hit.point;
+            angle.x += hor * Mathf.Deg2Rad * sensitivity.x;
         }
-        transform.position = finalPosition;
 
+        float ver = Input.GetAxis("Mouse Y");
 
+        if (ver != 0) 
+        { 
+            angle.y += ver * Mathf.Deg2Rad * sensitivity.y;
+            angle.y = Mathf.Clamp(angle.y, -80 * Mathf.Deg2Rad, 80 * Mathf.Deg2Rad);
+        }
+    }
 
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        Vector3 orbit = new Vector3(
+            Mathf.Cos(angle.x) * Mathf.Cos(angle.y),
+            -Mathf.Sin(angle.y),
+            -Mathf.Sin(angle.x) * Mathf.Cos(angle.y)
+            );
+
+        transform.position = follow.position + orbit * distance;
+        transform.rotation = Quaternion.LookRotation(follow.position - transform.position);
     }
 }
