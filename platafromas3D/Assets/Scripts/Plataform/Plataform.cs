@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Plataform : MonoBehaviour
 {
+    //Con character controller funcioanaba mal
     public Rigidbody rb;
     public float y, z;
     private void OnCollisionEnter(Collision collision)

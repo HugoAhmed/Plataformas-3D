@@ -1,37 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Pmovement : MonoBehaviour
 {
+
+    [Header("Movement")]
+    public float speed;
+    public float baseSpeed;
+    private float rotationSpeed = 150;
+    private Vector3 moveVelocity;
+    bool walking;
+    public float runSpeedMultiplier;
+
+
+
+    [Header("Jump")]
+    private float gravity = -20;
+    private float jumpSpeed = 10;
+    bool grounded;
+    private int maxJumpCount = 3;
+    private  int jumpsRemaining = 0;
+    public float jumpForce;
+
+
+    public float  ro_speed;
+    private bool IsOnAir;
+
+    private float currentMoveSpeed;
+
+
+    [Header("References")]
+    public CharacterController player;
+    private Vector3 turnVelocity;
     public Animator playerAnim;
-    public Rigidbody playerRigid;
-    public float w_speed, wb_speed, olw_speed, rn_speed, ro_speed, jumpForce;
-    public bool walking, grounded, IsOnAir;
     public Transform playerTrans;
-    public int maxJumpCount = 3;
-    public int jumpsRemaining = 0;
+
+
 
     void start()
     {
-        playerRigid = gameObject.GetComponent<Rigidbody>();
-    }
-
-    void FixedUpdate()
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.position += transform.forward * w_speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position -= transform.forward * wb_speed * Time.deltaTime;
-        }
-
-
+        currentMoveSpeed = speed;
     }
     void Update()
     {
+        //Movimiento jugador
+        var hInput = Input.GetAxis("Horizontal");
+        var vInput = Input.GetAxis("Vertical");
+
+        if (player.isGrounded)
+        {
+            moveVelocity = transform.forward * speed * vInput;
+            turnVelocity = transform.up * rotationSpeed * hInput;
+        }
+
+        moveVelocity.y += gravity * Time.deltaTime;
+        
+        transform.Rotate(turnVelocity * Time.deltaTime);
+
+
+        //Animaciones
         if (Input.GetKeyDown(KeyCode.W))
         {
             playerAnim.SetTrigger("walk");
@@ -56,7 +85,7 @@ public class Pmovement : MonoBehaviour
             playerAnim.SetTrigger("idle");
         }
 
-
+        //Rotacion
         if (Input.GetKey(KeyCode.A))
         {
             playerTrans.Rotate(0, -ro_speed * Time.deltaTime, 0);
@@ -99,7 +128,7 @@ public class Pmovement : MonoBehaviour
             {
                 //steps1.SetActive(false);
                 //steps2.SetActive(true);
-                w_speed = w_speed + rn_speed;
+                  speed *= runSpeedMultiplier;
                 playerAnim.SetTrigger("run");
                 playerAnim.ResetTrigger("walk");
             }
@@ -107,21 +136,21 @@ public class Pmovement : MonoBehaviour
             {
                 //steps1.SetActive(true);
                 //steps2.SetActive(false);
-                w_speed = olw_speed;
+                speed = baseSpeed;
                 playerAnim.ResetTrigger("run");
                 playerAnim.SetTrigger("walk");
-            }
+            }   
 
         }
 
-            if (Input.GetKeyDown(KeyCode.Space) && (jumpsRemaining > 0))
-            {
-                // reset y velocity
-                playerRigid.velocity = new Vector3(playerRigid.velocity.x, 0f, playerRigid.velocity.z);
-                playerRigid.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                jumpsRemaining -= 1;
+        if (Input.GetKeyDown(KeyCode.Space) && (jumpsRemaining > 0))
+        {
+            // reset y velocity
+            moveVelocity.y = jumpForce;
+            jumpsRemaining -= 1;
 
-            }
+        }
+        player.Move(moveVelocity * Time.deltaTime);
 
     }
 
@@ -131,10 +160,6 @@ public class Pmovement : MonoBehaviour
         {
             grounded = true;
             jumpsRemaining = maxJumpCount;
-        }
-        if (collision.collider.tag == "plataform")
-        {
-            playerRigid.AddForce(0, 20, 20);
         }
         if (collision.collider.tag == "enemy")
         {

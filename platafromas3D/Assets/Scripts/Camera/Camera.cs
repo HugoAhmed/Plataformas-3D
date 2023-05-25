@@ -4,46 +4,39 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    private Vector2 angle = new Vector2(90 * Mathf.Deg2Rad, 0);
+    public Transform target;
+    public float distance = 5f;
+    public float height = 2f;
+    public float mouseSensitivity = 2f;
+    public LayerMask obstacleLayer;
 
-    public Transform follow;
-    public float distance;
-    public Vector2 sensitivity;
+    private float rotationX = 0f;
+    private float rotationY = 0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void Update()
+    private void LateUpdate()
     {
-        float hor = Input.GetAxis("Mouse X");
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        if (hor != 0)
+        rotationX += mouseX;
+        rotationY -= mouseY;
+        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+
+        Vector3 desiredPosition = target.position - Quaternion.Euler(rotationY, rotationX, 0f) * Vector3.forward * distance + Vector3.up * height;
+
+        RaycastHit hit;
+        if (Physics.Raycast(target.position, desiredPosition - target.position, out hit, distance, obstacleLayer))
         {
-            angle.x += hor * Mathf.Deg2Rad * sensitivity.x;
+            desiredPosition = hit.point;
         }
 
-        float ver = Input.GetAxis("Mouse Y");
+        transform.position = desiredPosition;
 
-        if (ver != 0) 
-        { 
-            angle.y += ver * Mathf.Deg2Rad * sensitivity.y;
-            angle.y = Mathf.Clamp(angle.y, -80 * Mathf.Deg2Rad, 80 * Mathf.Deg2Rad);
-        }
-    }
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        Vector3 orbit = new Vector3(
-            Mathf.Cos(angle.x) * Mathf.Cos(angle.y),
-            -Mathf.Sin(angle.y),
-            -Mathf.Sin(angle.x) * Mathf.Cos(angle.y)
-            );
-
-        transform.position = follow.position + orbit * distance;
-        transform.rotation = Quaternion.LookRotation(follow.position - transform.position);
+        transform.LookAt(target);
     }
 }

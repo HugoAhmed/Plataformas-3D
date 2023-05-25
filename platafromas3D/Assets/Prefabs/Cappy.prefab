@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 3102304739479483717}
   - component: {fileID: 5541445299165280827}
   - component: {fileID: 5114106417327192675}
-  - component: {fileID: 4277114392145262475}
   m_Layer: 0
   m_Name: Cappy
-  m_TagString: Untagged
+  m_TagString: cappy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3319195336013859228}
   m_LocalRotation: {x: 0.20284139, y: -0.053754065, z: 0.07191545, w: 0.9750867}
-  m_LocalPosition: {x: 4.8673663, y: 18.946245, z: 29.788765}
-  m_LocalScale: {x: 4.259724, y: 3.367885, z: 3.606319}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,17 +85,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4277114392145262475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319195336013859228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faf70f8580e9a944584a5fef1cd0ddc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cappy: {fileID: 3319195336013859228}
-  player: {fileID: 8945458555194236380, guid: dabe00122e92b36428d3fd01d746eeef, type: 3}

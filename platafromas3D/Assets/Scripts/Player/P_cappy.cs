@@ -23,7 +23,6 @@ public class P_cappy : MonoBehaviour
         player = GameObject.Find("Mario");
         cappy = GameObject.Find("Cappy");
 
-        cappy.GetComponent<MeshRenderer>().enabled = false; 
 
         itemToRotate = gameObject.transform.GetChild(0);     
 
@@ -54,9 +53,7 @@ public class P_cappy : MonoBehaviour
         }
 
         if (!go && Vector3.Distance(player.transform.position, transform.position) < 1.5)
-        {
-            cappy.GetComponent<MeshRenderer>().enabled = true;
+        
             Destroy(this.gameObject);
         }
     }
-}

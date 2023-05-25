@@ -8,6 +8,7 @@ public class e_movement : MonoBehaviour
 
     public NavMeshAgent enemy;
     public Transform Player;
+    public Transform Target;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,4 +20,6 @@ public class e_movement : MonoBehaviour
     {
         enemy.SetDestination(Player.position);
     }
+
+   
 }
